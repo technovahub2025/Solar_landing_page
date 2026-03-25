@@ -72,7 +72,6 @@ const formatNumberInput = (value) => (value === 0 ? '' : value)
 function SolarCalculator() {
   const initialLead = getStoredLead()
   const calculatorRef = useRef(null)
-  const resultsPaneRef = useRef(null)
   const [inputMode, setInputMode] = useState('bill')
   const [monthlyBill, setMonthlyBill] = useState(6500)
   const [monthlyUnits, setMonthlyUnits] = useState(0)
@@ -158,7 +157,12 @@ function SolarCalculator() {
         item.id === id
           ? {
               ...item,
-              [field]: field === 'appliance' ? value : Number(value),
+              [field]:
+                field === 'appliance'
+                  ? value
+                  : value === ''
+                    ? ''
+                    : Number(value),
             }
           : item,
       ),
@@ -243,67 +247,6 @@ function SolarCalculator() {
   }, [formValues, proposalData, proposalInputs, results])
 
   useEffect(() => {
-    if (prefersReducedMotion || !resultsPaneRef.current) {
-      return undefined
-    }
-
-    const ctx = gsap.context(() => {
-      const shouldUseParallax =
-        typeof window !== 'undefined' &&
-        typeof window.matchMedia === 'function' &&
-        window.matchMedia('(min-width: 1280px) and (pointer: fine)').matches
-
-      gsap.from('.calculator-surface', {
-        autoAlpha: 0,
-        y: 22,
-        duration: 0.82,
-        ease: MOTION.ease.primary,
-        scrollTrigger: {
-          trigger: resultsPaneRef.current,
-          start: 'top 82%',
-          once: true,
-        },
-        clearProps: 'opacity,visibility,transform',
-      })
-
-      gsap.fromTo(
-        '.results-card',
-        {
-          y: 24,
-          scale: 0.985,
-        },
-        {
-          y: 0,
-          scale: 1,
-          duration: 0.88,
-          ease: MOTION.ease.primary,
-          scrollTrigger: {
-            trigger: resultsPaneRef.current,
-            start: 'top 80%',
-            once: true,
-          },
-          clearProps: 'transform',
-        },
-      )
-
-      if (shouldUseParallax) {
-        gsap.to('.results-card', {
-          yPercent: -1.5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: resultsPaneRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: MOTION.scrub.soft,
-          },
-        })
-      }
-    }, resultsPaneRef)
-
-    return () => ctx.revert()
-  }, [prefersReducedMotion])
-
-  useEffect(() => {
     if (prefersReducedMotion || !calculatorRef.current) {
       return undefined
     }
@@ -330,25 +273,46 @@ function SolarCalculator() {
     return undefined
   }, [inputMode, prefersReducedMotion])
 
+  useEffect(() => {
+    if (prefersReducedMotion || !calculatorRef.current) {
+      return undefined
+    }
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.results-metric, .results-card-title, .results-card-copy, .results-summary-value',
+        {
+          autoAlpha: 0.72,
+          y: 10,
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.52,
+          ease: MOTION.ease.soft,
+          stagger: 0.04,
+          overwrite: 'auto',
+          clearProps: 'opacity,visibility,transform',
+        },
+      )
+    }, calculatorRef)
+
+    return () => ctx.revert()
+  }, [prefersReducedMotion, results])
+
   return (
     <SectionReveal className="section-band section-space" id="calculator" variant="hero">
       <div className="wide-shell" ref={calculatorRef}>
-        <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.18fr)_minmax(360px,0.82fr)] xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)]">
-          <div className="grid gap-5">
-            <div className="anchor-target calculator-surface paper-panel bg-[linear-gradient(180deg,rgba(255,253,248,0.98),rgba(245,237,226,0.96)),radial-gradient(circle_at_top_right,rgba(232,200,145,0.2),transparent_28%)] p-5 md:p-6" id="calculator-panel">
-              <div className="motion-line grid gap-5 border-b border-black/8 pb-6 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)] 2xl:grid-cols-[minmax(0,1.18fr)_minmax(360px,0.82fr)]">
+          <div className="min-w-0 grid gap-5">
+            <div className="anchor-target calculator-surface paper-panel bg-[linear-gradient(180deg,rgba(255,253,248,0.98),rgba(245,237,226,0.96)),radial-gradient(circle_at_top_right,rgba(232,200,145,0.2),transparent_28%)] p-4 sm:p-5 md:p-6" id="calculator-panel">
+              <div className="motion-line border-b border-black/8 pb-6">
                 <div>
                   <span className="kicker">Calculator and recommendation</span>
-                  <h2 className="mt-5 font-['Syne'] text-[clamp(2.5rem,4vw,4rem)] leading-[0.95] tracking-[-0.06em] text-[var(--color-ink)]">
+                  <h2 className="mt-5 font-['Syne'] text-[clamp(2.15rem,7vw,4rem)] leading-[0.95] tracking-[-0.06em] text-[var(--color-ink)]">
                     From energy usage to a ready-to-share solar proposal
                   </h2>
-                </div>
-                <div className="space-y-4">
-                  <p className="section-copy">
-                    The calculator remains fully functional, but it now sits inside a more premium, conversion-first
-                    landing page. Users can estimate system size, compare backup needs, and prepare a polished quote.
-                  </p>
-                  <div className="stagger-grid flex flex-wrap gap-2 text-xs font-semibold">
+                  <div className="stagger-grid mt-5 flex flex-wrap gap-2 text-xs font-semibold">
                     {['Residential and business friendly', 'Bill or appliance based', 'Local save plus PDF export'].map((item, index) => (
                       <span
                         className="rounded-full border border-black/8 bg-white/76 px-3 py-2 text-[var(--color-muted)]"
@@ -363,7 +327,7 @@ function SolarCalculator() {
               </div>
 
               <div className="stagger-grid mt-6 grid gap-5">
-                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 100, '--stagger-x': '-16px' }}>
+                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 100, '--stagger-x': '-16px' }}>
                   <div className="mb-6">
                     <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">Usage Inputs</h3>
                     <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
@@ -371,8 +335,8 @@ function SolarCalculator() {
                     </p>
                   </div>
 
-                  <div className="mb-6 inline-flex rounded-full border border-black/8 bg-[#efe6d7] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
-                    <div className="relative inline-grid grid-cols-2 rounded-full">
+                  <div className="mb-6 flex w-full rounded-[1.25rem] border border-black/8 bg-[#efe6d7] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] sm:inline-flex sm:w-auto sm:rounded-full">
+                    <div className="relative grid w-full grid-cols-2 rounded-[1rem] sm:inline-grid sm:w-auto sm:rounded-full">
                       <span
                         aria-hidden="true"
                         className={`pointer-events-none absolute inset-y-0 left-0 z-0 rounded-full bg-[#2d2722] shadow-[0_12px_22px_rgba(33,28,23,0.18)] transition-transform duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -381,7 +345,7 @@ function SolarCalculator() {
                         style={{ width: '50%' }}
                       />
                     <button
-                      className={`relative z-10 min-w-[180px] rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      className={`relative z-10 min-w-0 rounded-[1rem] px-3 py-3 text-center text-sm font-semibold transition-colors duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-w-[180px] sm:rounded-full sm:px-5 ${
                         inputMode === 'bill'
                           ? 'text-white'
                           : 'bg-transparent text-[var(--color-muted)] hover:text-[var(--color-ink)]'
@@ -394,7 +358,7 @@ function SolarCalculator() {
                       Monthly Bill or Units
                     </button>
                     <button
-                      className={`relative z-10 min-w-[180px] rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      className={`relative z-10 min-w-0 rounded-[1rem] px-3 py-3 text-center text-sm font-semibold transition-colors duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] sm:min-w-[180px] sm:rounded-full sm:px-5 ${
                         inputMode === 'appliance'
                           ? 'text-white'
                           : 'bg-transparent text-[var(--color-muted)] hover:text-[var(--color-ink)]'
@@ -446,7 +410,7 @@ function SolarCalculator() {
                           <span className="block text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
                             Estimated daily load
                           </span>
-                          <strong className="mt-3 block font-['Syne'] text-4xl tracking-[-0.05em] text-[var(--color-ink)]">
+                          <strong className="mt-3 block font-['Syne'] text-[clamp(2rem,7vw,2.25rem)] tracking-[-0.05em] text-[var(--color-ink)]">
                             {billDailyLoad.toFixed(2)} kWh/day
                           </strong>
                         </div>
@@ -463,7 +427,7 @@ function SolarCalculator() {
                   )}
                 </div>
 
-                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 220, '--stagger-x': '16px' }}>
+                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 220, '--stagger-x': '16px' }}>
                   <div className="mb-6">
                     <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">
                       Configuration Preferences
@@ -485,6 +449,7 @@ function SolarCalculator() {
                               ? 'border-[rgba(200,154,75,0.34)] bg-[linear-gradient(180deg,#fffaf1,#f4ead9)] shadow-[0_12px_24px_rgba(200,154,75,0.12)]'
                               : 'border-black/8 bg-white/72'
                           }`}
+                          data-motion="soft"
                         >
                           <input
                             className="sr-only"
@@ -505,7 +470,7 @@ function SolarCalculator() {
                           </span>
                           <span>
                             <span className="block text-sm font-semibold text-[var(--color-ink)]">Yes</span>
-                            <span className="block text-xs text-[var(--color-muted)]">Include backup battery sizing</span>
+                            <span className="block text-xs text-[var(--color-muted)]">Include battery backup</span>
                           </span>
                         </label>
 
@@ -515,6 +480,7 @@ function SolarCalculator() {
                               ? 'border-[rgba(32,27,23,0.18)] bg-[rgba(32,27,23,0.04)] shadow-[0_12px_24px_rgba(32,27,23,0.06)]'
                               : 'border-black/8 bg-white/72'
                           }`}
+                          data-motion="soft"
                         >
                           <input
                             className="sr-only"
@@ -535,7 +501,7 @@ function SolarCalculator() {
                           </span>
                           <span>
                             <span className="block text-sm font-semibold text-[var(--color-ink)]">No</span>
-                            <span className="block text-xs text-[var(--color-muted)]">Solar only without battery backup</span>
+                            <span className="block text-xs text-[var(--color-muted)]">Solar only</span>
                           </span>
                         </label>
                       </div>
@@ -556,14 +522,13 @@ function SolarCalculator() {
                     </label>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
 
-          <div className="calculator-results-rail xl:sticky xl:top-20" ref={resultsPaneRef}>
-            <div className="grid gap-4">
-              <ResultsCard results={results} />
-            </div>
+          <div className="min-w-0 self-start">
+            <ResultsCard results={results} />
           </div>
 
           <div className="xl:col-span-2">

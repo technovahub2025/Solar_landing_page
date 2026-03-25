@@ -14,7 +14,7 @@ function QuoteGenerator({
   }
 
   return (
-    <div className="anchor-target paper-panel mt-2 p-5 md:p-7" id="quote-panel">
+    <div className="anchor-target paper-panel mt-2 p-4 sm:p-5 md:p-7" id="quote-panel">
       <div className="motion-line mb-8 grid gap-5 border-b border-black/8 pb-6 md:grid-cols-[0.75fr_1.25fr] md:items-start">
         <div>
           <span className="kicker">Proposal capture</span>
@@ -96,7 +96,7 @@ function QuoteGenerator({
 
           {submissionState.message && (
             <p
-              className={`rounded-full border px-4 py-2 text-sm ${
+              className={`w-full rounded-[1.1rem] border px-4 py-2 text-sm md:w-auto md:rounded-full ${
                 statusTone[submissionState.type] || 'border-black/8 bg-white/70 text-[var(--color-ink)]'
               }`}
             >

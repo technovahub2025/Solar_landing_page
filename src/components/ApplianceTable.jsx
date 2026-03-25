@@ -2,7 +2,7 @@ import { memo } from 'react'
 
 function ApplianceTable({ appliances, onChange, onAddRow, onRemoveRow, totalDailyLoad }) {
   return (
-    <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-5">
+    <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5">
       <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">
@@ -12,7 +12,7 @@ function ApplianceTable({ appliances, onChange, onAddRow, onRemoveRow, totalDail
             Add household or commercial loads to estimate total daily energy demand.
           </p>
         </div>
-        <button className="outline-button !py-3 !text-sm" data-motion="button" type="button" onClick={onAddRow}>
+        <button className="outline-button w-full !py-3 !text-sm md:w-auto" data-motion="button" type="button" onClick={onAddRow}>
           Add Appliance
         </button>
       </div>
@@ -89,7 +89,7 @@ function ApplianceTable({ appliances, onChange, onAddRow, onRemoveRow, totalDail
         </table>
       </div>
 
-      <div className="mt-5 flex items-center justify-between rounded-[1.5rem] border border-[rgba(200,154,75,0.22)] bg-[linear-gradient(135deg,rgba(200,154,75,0.1),rgba(255,255,255,0.7))] px-4 py-4 shadow-[0_18px_36px_rgba(37,27,17,0.06)]">
+      <div className="mt-5 flex flex-col gap-2 rounded-[1.5rem] border border-[rgba(200,154,75,0.22)] bg-[linear-gradient(135deg,rgba(200,154,75,0.1),rgba(255,255,255,0.7))] px-4 py-4 shadow-[0_18px_36px_rgba(37,27,17,0.06)] sm:flex-row sm:items-center sm:justify-between">
         <span className="text-sm text-[var(--color-muted)]">Total connected load</span>
         <strong className="text-lg font-semibold text-[var(--color-ink)]">{totalDailyLoad.toFixed(2)} kWh/day</strong>
       </div>
