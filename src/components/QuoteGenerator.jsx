@@ -1,8 +1,10 @@
 import { memo } from 'react'
+import { LoadingDots, RippleButton, SuccessFeedback } from './MicroInteractions.jsx'
 
 function QuoteGenerator({
   formValues,
   errors,
+  isPreparing,
   onChange,
   onSubmit,
   submissionState,
@@ -90,19 +92,34 @@ function QuoteGenerator({
         </label>
 
         <div className="flex flex-col gap-4 border-t border-black/8 pt-5 md:col-span-2 md:flex-row md:items-center md:justify-between" style={{ '--stagger-delay': 380 }}>
-          <button className="primary-button w-full md:w-auto" data-motion="button" type="submit">
-            Download Quote
-          </button>
+          <RippleButton
+            className="primary-button inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-70 md:w-auto"
+            data-motion="button"
+            disabled={isPreparing}
+            type="submit"
+          >
+            {isPreparing ? (
+              <>
+                <LoadingDots color="rgba(248, 242, 232, 0.92)" size="small" />
+                <span>Preparing Quote</span>
+              </>
+            ) : (
+              'Download Quote'
+            )}
+          </RippleButton>
 
-          {submissionState.message && (
-            <p
-              className={`w-full rounded-[1.1rem] border px-4 py-2 text-sm md:w-auto md:rounded-full ${
-                statusTone[submissionState.type] || 'border-black/8 bg-white/70 text-[var(--color-ink)]'
-              }`}
-            >
-              {submissionState.message}
-            </p>
-          )}
+          <SuccessFeedback trigger={submissionState.type === 'success'}>
+            {submissionState.message && (
+              <p
+                className={`flex w-full items-center gap-2 rounded-[1.1rem] border px-4 py-2 text-sm md:w-auto md:rounded-full ${
+                  statusTone[submissionState.type] || 'border-black/8 bg-white/70 text-[var(--color-ink)]'
+                }`}
+              >
+                {isPreparing ? <LoadingDots color="currentColor" size="small" /> : null}
+                <span>{submissionState.message}</span>
+              </p>
+            )}
+          </SuccessFeedback>
         </div>
       </form>
     </div>

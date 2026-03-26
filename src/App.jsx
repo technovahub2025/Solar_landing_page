@@ -1,12 +1,21 @@
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import LoadingAnimation from './components/LoadingAnimation.jsx'
 
 const SiteLayout = lazy(() => import('./layouts/SiteLayout.jsx'))
 const HomePage = lazy(() => import('./pages/HomePage.jsx'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'))
 
-function RouteFallback() {
-  return <div className="min-h-screen bg-[var(--color-cream)]" aria-hidden="true" />
+function RouteFallback({ minHeight = '60vh' }) {
+  return (
+    <div 
+      className="fixed inset-0 bg-[var(--color-cream)] z-50 flex items-center justify-center" 
+      style={{ minHeight }}
+      aria-hidden="true"
+    >
+      <LoadingAnimation type="solar" size="large" text="Loading solar experience..." />
+    </div>
+  )
 }
 
 function App() {

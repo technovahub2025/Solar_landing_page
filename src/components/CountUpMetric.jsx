@@ -27,29 +27,23 @@ function CountUpMetric({
       return undefined
     }
 
-    const rect = node.getBoundingClientRect()
-    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
-      const frameId = window.requestAnimationFrame(() => setInView(true))
-      return () => window.cancelAnimationFrame(frameId)
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry?.isIntersecting) {
-        return
-      }
-
-      setInView(true)
-      observer.disconnect()
-    }, {
-      rootMargin: '0px 0px -8% 0px',
-      threshold: 0.1,
-    })
+    // Use IntersectionObserver with proper cleanup
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      {
+        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.1,
+      },
+    )
 
     observer.observe(node)
 
-    return () => {
-      observer.disconnect()
-    }
+    return () => observer.disconnect()
   }, [prefersReducedMotion])
 
   return (

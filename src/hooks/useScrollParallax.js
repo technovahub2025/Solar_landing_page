@@ -1,45 +1,63 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import usePrefersReducedMotion from './usePrefersReducedMotion.js'
 
 function useScrollParallax(intensity = 40) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const [offset, setOffset] = useState(0)
+  const rafIdRef = useRef(0)
+  const lastScrollRef = useRef(0)
 
   useEffect(() => {
+    // Early return for reduced motion
     if (prefersReducedMotion || typeof window === 'undefined') {
       return undefined
     }
 
-    let frameId = 0
-
     const updateOffset = () => {
-      const nextOffset = Math.min(window.scrollY * 0.08, intensity)
-      setOffset(nextOffset)
+      const currentScroll = window.scrollY
+      
+      // Throttle: only update if scroll position changed significantly
+      if (Math.abs(currentScroll - lastScrollRef.current) < 1) {
+        return
+      }
+      
+      lastScrollRef.current = currentScroll
+      const nextOffset = Math.min(currentScroll * 0.08, intensity)
+      setOffset((current) => (current === nextOffset ? current : nextOffset))
     }
 
     const handleScroll = () => {
-      if (frameId) {
-        return
+      // Cancel any pending frame to prevent buildup
+      if (rafIdRef.current) {
+        window.cancelAnimationFrame(rafIdRef.current)
       }
-
-      frameId = window.requestAnimationFrame(() => {
+      
+      // Schedule next frame
+      rafIdRef.current = window.requestAnimationFrame(() => {
         updateOffset()
-        frameId = 0
+        rafIdRef.current = 0
       })
     }
 
+    // Initial update
     updateOffset()
+    
+    // Use passive listener for better scroll performance
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      if (frameId) {
-        window.cancelAnimationFrame(frameId)
+      if (rafIdRef.current) {
+        window.cancelAnimationFrame(rafIdRef.current)
       }
       window.removeEventListener('scroll', handleScroll)
     }
   }, [intensity, prefersReducedMotion])
 
-  return prefersReducedMotion ? 0 : offset
+  if (prefersReducedMotion || typeof window === 'undefined') {
+    return 0
+  }
+
+  return offset
 }
 
 export default useScrollParallax

@@ -21,7 +21,7 @@ function ResultsCard({ results, compact = false }) {
   const metrics = compact ? summaryMetrics : [...summaryMetrics, ...detailedMetrics]
 
   return (
-    <aside className="results-card dark-panel p-4 lg:p-5 2xl:p-6">
+    <aside className="results-card dark-panel overflow-hidden p-4 lg:p-5 2xl:p-6">
       <div className="border-b border-white/10 pb-4 lg:pb-5">
         <span className="kicker !border-white/12 !bg-white/6 !text-white/64">Recommended system</span>
         <p className="results-card-copy mt-4 max-w-2xl text-sm leading-6 text-white/72 2xl:leading-7">
@@ -52,7 +52,7 @@ function ResultsCard({ results, compact = false }) {
             <span className="block text-[11px] font-semibold uppercase tracking-[0.22em] text-white/48">
               {metric.label}
             </span>
-            <strong className="results-metric-value mt-2.5 block text-[13px] font-semibold leading-5 text-white 2xl:mt-3 2xl:text-sm 2xl:leading-6">
+            <strong className="results-metric-value mt-2.5 block break-words text-[13px] font-semibold leading-5 text-white 2xl:mt-3 2xl:text-sm 2xl:leading-6">
               {metric.value}
             </strong>
           </div>

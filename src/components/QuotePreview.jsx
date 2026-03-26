@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import logo from '../assets/logo.png'
 import { formatNumber } from '../utils/solarEngine.js'
 
@@ -81,7 +81,7 @@ function QuotePreview({ downloadRequestId, onDownloadComplete, proposalData }) {
   const [isDownloading, setIsDownloading] = useState(false)
   const { customer, results } = proposalData
 
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
     if (isDownloading) {
       return
     }
@@ -91,6 +91,8 @@ function QuotePreview({ downloadRequestId, onDownloadComplete, proposalData }) {
     try {
       const [{ jsPDF }, logoDataUrl] = await Promise.all([import('jspdf'), loadImageAsDataUrl(logo, true)])
       const rupeeSymbolDataUrl = createTextImageDataUrl({ text: '₹' })
+      void rupeeSymbolDataUrl
+
       const formatPdfAmount = (value) =>
         new Intl.NumberFormat('en-IN', {
           maximumFractionDigits: 0,
@@ -349,15 +351,15 @@ function QuotePreview({ downloadRequestId, onDownloadComplete, proposalData }) {
     } finally {
       setIsDownloading(false)
     }
-  }
+  }, [customer, isDownloading, onDownloadComplete, proposalData, results])
 
   useEffect(() => {
     if (!downloadRequestId) {
-      return
+      return undefined
     }
 
     handleDownload()
-  }, [downloadRequestId])
+  }, [downloadRequestId, handleDownload])
 
   return null
 }

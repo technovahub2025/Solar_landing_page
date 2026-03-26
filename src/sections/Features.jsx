@@ -13,7 +13,7 @@ import {
 function Features() {
   return (
     <>
-      <SectionReveal className="section-band section-band-light section-space pb-0 pt-[clamp(1rem,2.4vw,2rem)]" id="impact" variant="hero">
+      <SectionReveal className="section-band section-band-light section-space pb-0 pt-[clamp(1rem,2.4vw,2rem)]" id="impact" variant="up">
         <div className="content-shell">
           <div className="anchor-target paper-panel overflow-hidden px-6 py-8 md:px-8" id="impact-panel">
             <div className="motion-line grid gap-8 border-b border-black/8 pb-8 md:grid-cols-[1fr_0.9fr] md:items-start">
@@ -41,7 +41,7 @@ function Features() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="section-band section-space" id="solutions" variant="split-left">
+      <SectionReveal className="section-band section-space" id="solutions" variant="up">
         <div className="anchor-target content-shell pt-4 md:pt-5" id="solutions-top">
           <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-start">
             <div>
@@ -92,7 +92,7 @@ function Features() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="section-band section-space pt-0" id="process" variant="split-right" delay={80}>
+      <SectionReveal className="section-band section-space pt-0" id="process" variant="up" delay={80}>
         <div className="content-shell pt-4 md:pt-5">
           <div className="anchor-target paper-panel px-6 py-8 md:px-8 md:py-10" id="process-panel">
             <div className="motion-line grid gap-8 border-b border-black/8 pb-8 md:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.7fr)] md:items-start">
@@ -142,7 +142,7 @@ function Features() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="section-band section-space pt-0" id="benefits" variant="soft">
+      <SectionReveal className="section-band section-space pt-0" id="benefits" variant="up">
         <div className="anchor-target content-shell pt-4 md:pt-5" id="benefits-top">
           <div className="grid gap-8 md:grid-cols-[0.95fr_1.05fr] md:items-start">
             <div>
@@ -168,7 +168,7 @@ function Features() {
         </div>
       </SectionReveal>
 
-      <SectionReveal className="section-band section-band-contrast section-space pt-0" id="trust" variant="scale">
+      <SectionReveal className="section-band section-band-contrast section-space pt-0" id="trust" variant="up">
         <div className="wide-shell">
           <div className="dark-panel bg-[linear-gradient(180deg,rgba(37,31,25,0.98),rgba(26,21,17,0.98))] px-6 py-8 md:px-8 md:py-10">
             <div className="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">

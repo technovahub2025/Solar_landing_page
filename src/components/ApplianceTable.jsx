@@ -17,7 +17,77 @@ function ApplianceTable({ appliances, onChange, onAddRow, onRemoveRow, totalDail
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className="space-y-4 md:hidden">
+        {appliances.map((item) => (
+          <div className="rounded-[1.35rem] border border-black/8 bg-white/72 p-4 shadow-[0_14px_28px_rgba(37,27,17,0.05)]" key={item.id}>
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
+                  Appliance
+                </p>
+                <p className="mt-2 text-sm font-semibold text-[var(--color-ink)]">
+                  {item.appliance || 'New appliance'}
+                </p>
+              </div>
+              <button
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#d7b4ab] bg-[#f9eeeb] text-lg text-[#8a3c33] transition hover:bg-[#f5e2de]"
+                data-motion="pill"
+                type="button"
+                onClick={() => onRemoveRow(item.id)}
+                aria-label={`Remove ${item.appliance || 'appliance'} row`}
+              >
+                x
+              </button>
+            </div>
+
+            <div className="grid gap-3">
+              <label className="block">
+                <span className="field-label">Appliance</span>
+                <input
+                  type="text"
+                  value={item.appliance}
+                  onChange={(event) => onChange(item.id, 'appliance', event.target.value)}
+                  placeholder="Appliance name"
+                />
+              </label>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="block">
+                  <span className="field-label">Qty</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={item.quantity}
+                    onChange={(event) => onChange(item.id, 'quantity', event.target.value)}
+                  />
+                </label>
+                <label className="block">
+                  <span className="field-label">Watts</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={item.watts}
+                    onChange={(event) => onChange(item.id, 'watts', event.target.value)}
+                  />
+                </label>
+              </div>
+
+              <label className="block">
+                <span className="field-label">Hours</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.5"
+                  value={item.hours}
+                  onChange={(event) => onChange(item.id, 'hours', event.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden overflow-x-auto md:block">
         <table className="min-w-full border-separate border-spacing-y-3">
           <thead>
             <tr>

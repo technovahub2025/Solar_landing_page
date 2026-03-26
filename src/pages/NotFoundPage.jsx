@@ -5,7 +5,7 @@ import useGsapReveal from '../hooks/useGsapReveal.js'
 
 function NotFoundPage() {
   const ref = useRef(null)
-  useGsapReveal(ref, { variant: 'soft' })
+  useGsapReveal(ref, { variant: 'up' })
   useGsapInteractiveMotion(ref)
 
   return (

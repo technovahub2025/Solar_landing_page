@@ -82,6 +82,7 @@ function SolarCalculator() {
   const [formValues, setFormValues] = useState(initialLead?.customer || getInitialFormValues)
   const [formErrors, setFormErrors] = useState({})
   const [downloadRequestId, setDownloadRequestId] = useState(0)
+  const [isPreparingQuote, setIsPreparingQuote] = useState(false)
   const [submissionState, setSubmissionState] = useState(
     initialLead
       ? {
@@ -194,6 +195,7 @@ function SolarCalculator() {
   }, [])
 
   const handleQuoteDownloaded = useCallback(() => {
+    setIsPreparingQuote(false)
     setLatestLead(null)
     setInputMode('bill')
     setMonthlyBill(6500)
@@ -206,7 +208,7 @@ function SolarCalculator() {
     setFormErrors({})
     setSubmissionState({
       message: 'Quote downloaded and local data cleared from this browser.',
-      type: 'info',
+      type: 'success',
     })
     rowIdRef.current = 4
     window.localStorage.removeItem(LEAD_STORAGE_KEY)
@@ -217,6 +219,7 @@ function SolarCalculator() {
     const nextErrors = validateForm(formValues)
 
     if (Object.keys(nextErrors).length > 0) {
+      setIsPreparingQuote(false)
       setFormErrors(nextErrors)
       setSubmissionState({
         message: 'Please correct the highlighted fields before preparing the quote.',
@@ -237,6 +240,7 @@ function SolarCalculator() {
       },
     }
 
+    setIsPreparingQuote(true)
     setLatestLead(leadPayload)
     window.localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify(leadPayload))
     setSubmissionState({
@@ -301,7 +305,7 @@ function SolarCalculator() {
   }, [prefersReducedMotion, results])
 
   return (
-    <SectionReveal className="section-band section-space" id="calculator" variant="hero">
+    <SectionReveal className="section-band section-space" id="calculator" variant="up">
       <div className="wide-shell" ref={calculatorRef}>
         <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)] 2xl:grid-cols-[minmax(0,1.18fr)_minmax(360px,0.82fr)]">
           <div className="min-w-0 grid gap-5">
@@ -535,6 +539,7 @@ function SolarCalculator() {
             <QuoteGenerator
               formValues={formValues}
               errors={formErrors}
+              isPreparing={isPreparingQuote}
               onChange={handleFormChange}
               onSubmit={handleSubmit}
               submissionState={submissionState}

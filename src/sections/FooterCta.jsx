@@ -1,9 +1,10 @@
 import { memo } from 'react'
+import { RippleButton } from '../components/MicroInteractions.jsx'
 import SectionReveal from '../components/SectionReveal.jsx'
 
 function FooterCta() {
   return (
-    <SectionReveal className="section-band section-space mt-0 pt-0" id="contact" variant="scale" delay={80}>
+    <SectionReveal className="section-band section-space mt-0 pt-0" id="contact" variant="up" delay={80}>
       <div className="wide-shell">
         <div className="anchor-target paper-panel relative overflow-hidden px-6 py-6 md:px-8 md:py-8" id="contact-panel">
           <div className="relative z-10">
@@ -36,10 +37,16 @@ function FooterCta() {
 
             <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
               <div>
-                <div className="stagger-grid flex flex-wrap gap-3">
-                  <a className="primary-button" data-motion="button" href="#calculator-panel">
+                <div className="stagger-grid flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <RippleButton
+                    as="a"
+                    className="primary-button"
+                    data-magnetic="true"
+                    data-motion="button"
+                    href="#calculator-panel"
+                  >
                     Build My Solar Plan
-                  </a>
+                  </RippleButton>
                   <a className="outline-button" data-motion="button" href="#quote-panel">
                     Review Quote Section
                   </a>
@@ -56,7 +63,7 @@ function FooterCta() {
                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
                       Email
                     </p>
-                    <p className="mt-3 font-semibold text-[var(--color-ink)]">hello@sunridgesolar.in</p>
+                    <p className="mt-3 break-all font-semibold text-[var(--color-ink)]">hello@sunridgesolar.in</p>
                   </div>
                   <div className="rounded-[1.5rem] border border-black/8 bg-white/72 px-5 py-5" data-motion="soft" style={{ '--stagger-delay': 280 }}>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
@@ -67,7 +74,7 @@ function FooterCta() {
                 </div>
               </div>
 
-              <div className="rounded-[1.9rem] border border-[rgba(200,154,75,0.2)] bg-[linear-gradient(180deg,#fffaf1,#f4ead9)] p-6 shadow-[0_22px_45px_rgba(37,27,17,0.08)]" data-motion="card">
+              <div className="rounded-[1.9rem] border border-[rgba(200,154,75,0.2)] bg-[linear-gradient(180deg,#fffaf1,#f4ead9)] p-6 shadow-[0_22px_45px_rgba(37,27,17,0.08)]" data-magnetic="true" data-motion="card">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
                   Best for
                 </p>
