@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { LoadingDots, RippleButton, SuccessFeedback } from './MicroInteractions.jsx'
+import { LoadingDots, RippleButton } from './MicroInteractions.jsx'
 
 function QuoteGenerator({
   formValues,
@@ -108,18 +108,16 @@ function QuoteGenerator({
             )}
           </RippleButton>
 
-          <SuccessFeedback trigger={submissionState.type === 'success'}>
-            {submissionState.message && (
-              <p
-                className={`flex w-full items-center gap-2 rounded-[1.1rem] border px-4 py-2 text-sm md:w-auto md:rounded-full ${
-                  statusTone[submissionState.type] || 'border-black/8 bg-white/70 text-[var(--color-ink)]'
-                }`}
-              >
-                {isPreparing ? <LoadingDots color="currentColor" size="small" /> : null}
-                <span>{submissionState.message}</span>
-              </p>
-            )}
-          </SuccessFeedback>
+          {submissionState.message && (
+            <p
+              className={`flex w-full items-center gap-2 rounded-[1.1rem] border px-4 py-2 text-sm md:w-auto md:rounded-full ${
+                statusTone[submissionState.type] || 'border-black/8 bg-white/70 text-[var(--color-ink)]'
+              }`}
+            >
+              {isPreparing ? <LoadingDots color="currentColor" size="small" /> : null}
+              <span>{submissionState.message}</span>
+            </p>
+          )}
         </div>
       </form>
     </div>
