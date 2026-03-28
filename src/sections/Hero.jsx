@@ -1,5 +1,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { FloatingElement, PulseOnHover, RippleButton } from '../components/MicroInteractions.jsx'
+import heroAccent from '../assets/hero.png'
+import image5 from '../assets/5.png'
 import solarVideo from '../assets/solarvideo.mp4'
 import useGsapInteractiveMotion from '../hooks/useGsapInteractiveMotion.js'
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js'
@@ -213,6 +215,24 @@ function Hero() {
           >
             {shouldLoadVideo ? <source src={solarVideo} type="video/mp4" /> : null}
           </video>
+          <div className="section-art-shell" aria-hidden="true">
+            <div
+              className="section-art-image absolute right-[3%] top-[8%] h-[240px] w-[240px]"
+              data-tone="dark"
+              style={{ backgroundImage: `url(${heroAccent})`, '--art-opacity': 0.16, '--art-blur': '0.4px' }}
+            />
+            <div
+              className="section-art-image absolute left-[5%] top-[5%] h-[500px] w-[500px]"
+              data-blend="ghost"
+              style={{ 
+                backgroundImage: `url(${image5})`, 
+                '--art-opacity': 0.35, 
+                '--art-blur': '0.8px',
+                backgroundPosition: 'center',
+                backgroundSize: 'contain'
+              }}
+            />
+          </div>
           <div className="hero-overlay hero-overlay-left pointer-events-none absolute inset-0 z-[1]" />
           <FloatingElement delay={0.4} intensity="medium">
             <div className="hero-orb hero-orb-right pointer-events-none absolute bottom-[-8rem] right-[-5rem] z-[1] h-72 w-72 rounded-full bg-[rgba(200,154,75,0.16)]" />

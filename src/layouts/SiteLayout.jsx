@@ -5,13 +5,14 @@ import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion.js'
 import { MOTION } from '../lib/motion.js'
 import Navbar from '../sections/Navbar.jsx'
 
-const MAX_SCROLL_ATTEMPTS = 24
+const MAX_SCROLL_ATTEMPTS = 2
+const SCROLL_ALIGNMENT_TOLERANCE = 8
 
 function SiteLayout() {
   const location = useLocation()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const performScroll = useCallback((hash) => {
+  const performScroll = useCallback((hash, instant = false) => {
     const target = document.querySelector(hash)
 
     if (!target) {
@@ -32,10 +33,10 @@ function SiteLayout() {
 
     window.scrollTo({
       top: Math.max(top, 0),
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      behavior: prefersReducedMotion || instant ? 'auto' : 'smooth',
     })
 
-    if (!prefersReducedMotion) {
+    if (!prefersReducedMotion && !instant) {
       gsap.fromTo(
         target,
         {
@@ -61,14 +62,41 @@ function SiteLayout() {
     return true
   }, [prefersReducedMotion])
 
+  const isHashAligned = useCallback((hash) => {
+    const target = document.querySelector(hash)
+
+    if (!target) {
+      return false
+    }
+
+    const styles = window.getComputedStyle(target)
+    const scrollMarginTop = Number.parseFloat(styles.scrollMarginTop) || 0
+    const targetTop = target.getBoundingClientRect().top
+    const delta = Math.abs(targetTop - scrollMarginTop)
+
+    if (delta <= SCROLL_ALIGNMENT_TOLERANCE) {
+      return true
+    }
+
+    const viewportBottom = window.scrollY + window.innerHeight
+    const documentBottom = document.documentElement.scrollHeight
+    const atBottom = viewportBottom >= documentBottom - SCROLL_ALIGNMENT_TOLERANCE
+
+    if (atBottom && targetTop <= scrollMarginTop + SCROLL_ALIGNMENT_TOLERANCE) {
+      return true
+    }
+
+    return false
+  }, [])
+
   const scrollToHashTarget = useCallback(function scrollToHashTarget(hash, attempt = 0) {
     if (!hash) {
       return
     }
 
-    const didScroll = performScroll(hash)
+    performScroll(hash, attempt > 0)
 
-    if (didScroll || attempt >= MAX_SCROLL_ATTEMPTS) {
+    if (isHashAligned(hash) || attempt >= MAX_SCROLL_ATTEMPTS) {
       return
     }
 
@@ -76,8 +104,8 @@ function SiteLayout() {
       window.requestAnimationFrame(() => {
         scrollToHashTarget(hash, attempt + 1)
       })
-    }, 60)
-  }, [performScroll])
+    }, 220)
+  }, [isHashAligned, performScroll])
 
   const handleAnchorClick = useCallback((event) => {
     if (!(event.target instanceof Element)) {
@@ -138,8 +166,11 @@ function SiteLayout() {
 
   return (
     <div className="site-frame min-h-screen bg-[var(--color-cream)] text-[var(--color-ink)]">
-      <Navbar />
-      <div className="site-content pt-[var(--nav-height)]">
+      <div className="site-background" aria-hidden="true" />
+      <div className="site-navbar relative z-20">
+        <Navbar />
+      </div>
+      <div className="site-content relative z-10 pt-[var(--nav-height)]">
         <Outlet />
       </div>
     </div>

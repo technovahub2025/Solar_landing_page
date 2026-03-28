@@ -1,4 +1,8 @@
 import { memo } from 'react'
+import quoteArtAccent from '../assets/2.png'
+import quoteArt from '../assets/3.png'
+import quoteArtBase from '../assets/6.png'
+import quoteArtSecondary from '../assets/10.png'
 import { LoadingDots, RippleButton } from './MicroInteractions.jsx'
 
 function QuoteGenerator({
@@ -16,7 +20,33 @@ function QuoteGenerator({
   }
 
   return (
-    <div className="anchor-target paper-panel mt-2 p-4 sm:p-5 md:p-7" id="quote-panel">
+    <div className="anchor-target paper-panel art-panel mt-2 p-4 sm:p-5 md:p-7" id="quote-panel">
+      <div className="section-art-shell" aria-hidden="true">
+        <div
+          className="section-art-image section-art-fade-wide absolute right-[-2%] top-[8%] h-[34%] w-[46%]"
+          data-tone="ink"
+          data-blend="line"
+          style={{ backgroundImage: `url(${quoteArtBase})`, '--art-opacity': 0.08 }}
+        />
+        <div
+          className="section-art-image section-art-fade-wide absolute left-[6%] bottom-[-6%] h-[28%] w-[58%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${quoteArtSecondary})`, '--art-opacity': 0.05 }}
+        />
+        <div
+          className="section-art-image section-art-fade-side absolute right-[-6%] bottom-[-4%] h-[180px] w-[26%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${quoteArt})`, '--art-opacity': 0.05 }}
+        />
+        <div
+          className="section-art-image section-art-fade-center absolute right-[8%] top-[12%] h-[120px] w-[18%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${quoteArtAccent})`, '--art-opacity': 0.04 }}
+        />
+      </div>
       <div className="motion-line mb-8 grid gap-5 border-b border-black/8 pb-6 md:grid-cols-[0.75fr_1.25fr] md:items-start">
         <div>
           <span className="kicker">Proposal capture</span>

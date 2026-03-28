@@ -1,12 +1,14 @@
 import { memo } from 'react'
+import img10 from '../assets/10.png'
+import img9 from '../assets/9.png'
 import { RippleButton } from '../components/MicroInteractions.jsx'
 import SectionReveal from '../components/SectionReveal.jsx'
 
 function FooterCta() {
   return (
     <SectionReveal className="section-band section-space mt-0 pt-0" id="contact" variant="up" delay={80}>
-      <div className="wide-shell">
-        <div className="anchor-target paper-panel relative overflow-hidden px-6 py-6 md:px-8 md:py-8" id="contact-panel">
+      <div className="wide-shell section-content">
+        <div className="anchor-target paper-panel art-panel relative overflow-hidden px-6 py-6 md:px-8 md:py-8" id="contact-panel">
           <div className="relative z-10">
             <div className="motion-line grid gap-6 border-b border-black/8 pb-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:items-start">
               <div className="max-w-4xl">
@@ -35,8 +37,18 @@ function FooterCta() {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
-              <div>
+            <div className="contact-cards-stage mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+              <div
+                className="contact-cards-bg"
+                aria-hidden="true"
+                style={{ backgroundImage: `url(${img10})` }}
+              />
+              <div
+                className="contact-cards-bg contact-cards-bg-left"
+                aria-hidden="true"
+                style={{ backgroundImage: `url(${img9})` }}
+              />
+              <div className="relative z-10">
                 <div className="stagger-grid flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <RippleButton
                     as="a"
@@ -72,9 +84,10 @@ function FooterCta() {
                     <p className="mt-3 font-semibold text-[var(--color-ink)]">Consultations across India</p>
                   </div>
                 </div>
+
               </div>
 
-              <div className="rounded-[1.9rem] border border-[rgba(200,154,75,0.2)] bg-[linear-gradient(180deg,#fffaf1,#f4ead9)] p-6 shadow-[0_22px_45px_rgba(37,27,17,0.08)]" data-magnetic="true" data-motion="card">
+              <div className="relative z-10 rounded-[1.9rem] border border-[rgba(200,154,75,0.2)] bg-[linear-gradient(180deg,#fffaf1,#f4ead9)] p-6 shadow-[0_22px_45px_rgba(37,27,17,0.08)]" data-magnetic="true" data-motion="card">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
                   Best for
                 </p>
@@ -94,6 +107,7 @@ function FooterCta() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

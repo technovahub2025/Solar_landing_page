@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import resultsArt from '../assets/5.png'
 import { formatCurrency, formatNumber } from '../utils/solarEngine.js'
 
 function ResultsCard({ results, compact = false }) {
@@ -21,7 +22,14 @@ function ResultsCard({ results, compact = false }) {
   const metrics = compact ? summaryMetrics : [...summaryMetrics, ...detailedMetrics]
 
   return (
-    <aside className="results-card dark-panel overflow-hidden p-4 lg:p-5 2xl:p-6">
+    <aside className="results-card dark-panel art-panel overflow-hidden p-4 lg:p-5 2xl:p-6">
+      <div className="section-art-shell" aria-hidden="true">
+        <div
+          className="section-art-image section-art-fade-bottom absolute right-[-6%] top-0 h-full w-[72%]"
+          data-tone="dark"
+          style={{ backgroundImage: `url(${resultsArt})`, '--art-opacity': 0.18, '--art-blur': '0.6px' }}
+        />
+      </div>
       <div className="border-b border-white/10 pb-4 lg:pb-5">
         <span className="kicker !border-white/12 !bg-white/6 !text-white/64">Recommended system</span>
         <p className="results-card-copy mt-4 max-w-2xl text-sm leading-6 text-white/72 2xl:leading-7">

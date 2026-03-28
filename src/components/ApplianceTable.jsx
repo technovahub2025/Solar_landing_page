@@ -1,8 +1,15 @@
 import { memo } from 'react'
+import plannerArt from '../assets/6.png'
 
 function ApplianceTable({ appliances, onChange, onAddRow, onRemoveRow, totalDailyLoad }) {
   return (
-    <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5">
+    <div className="art-panel rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5">
+      <div className="section-art-shell" aria-hidden="true">
+        <div
+          className="section-art-image section-art-fade-side absolute right-[-10%] top-0 h-full w-[48%]"
+          style={{ backgroundImage: `url(${plannerArt})`, '--art-opacity': 0.12 }}
+        />
+      </div>
       <div className="mb-5 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">

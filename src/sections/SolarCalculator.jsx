@@ -1,4 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import img1 from '../assets/1.png'
+import img4 from '../assets/4.png'
+import img5 from '../assets/5.png'
+import img6 from '../assets/6.png'
+import img7 from '../assets/7.png'
+import img8 from '../assets/8.png'
+import img9 from '../assets/9.png'
 import ApplianceTable from '../components/ApplianceTable.jsx'
 import QuoteGenerator from '../components/QuoteGenerator.jsx'
 import QuotePreview from '../components/QuotePreview.jsx'
@@ -306,10 +313,50 @@ function SolarCalculator() {
 
   return (
     <SectionReveal className="section-band section-space" id="calculator" variant="up">
-      <div className="wide-shell" ref={calculatorRef}>
+      <div className="section-gap-art" aria-hidden="true">
+        <div
+          className="section-art-image section-art-fade-side absolute left-[-8%] top-[12%] h-[420px] w-[34%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${img4})`, '--art-opacity': 0.05 }}
+        />
+        <div
+          className="section-art-image section-art-fade-soft absolute right-[-8%] bottom-[4%] h-[360px] w-[30%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${img1})`, '--art-opacity': 0.05 }}
+        />
+        <div
+          className="section-art-image section-art-fade-bottom absolute left-[18%] bottom-[-8%] h-[220px] w-[44%]"
+          data-tone="ink"
+          data-blend="ghost"
+          style={{ backgroundImage: `url(${img8})`, '--art-opacity': 0.05 }}
+        />
+      </div>
+      <div className="wide-shell section-content" ref={calculatorRef}>
         <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.12fr)_minmax(320px,0.88fr)] 2xl:grid-cols-[minmax(0,1.18fr)_minmax(360px,0.82fr)]">
           <div className="min-w-0 grid gap-5">
-            <div className="anchor-target calculator-surface paper-panel bg-[linear-gradient(180deg,rgba(255,253,248,0.98),rgba(245,237,226,0.96)),radial-gradient(circle_at_top_right,rgba(232,200,145,0.2),transparent_28%)] p-4 sm:p-5 md:p-6" id="calculator-panel">
+            <div className="anchor-target calculator-surface paper-panel art-panel bg-[linear-gradient(180deg,rgba(255,253,248,0.98),rgba(245,237,226,0.96)),radial-gradient(circle_at_top_right,rgba(232,200,145,0.2),transparent_28%)] p-4 sm:p-5 md:p-6" id="calculator-panel">
+              <div className="section-art-shell" aria-hidden="true">
+                <div
+                  className="section-art-image section-art-fade-wide absolute right-[-2%] top-[8%] h-[34%] w-[44%]"
+                  data-tone="ink"
+                  data-blend="line"
+                  style={{ backgroundImage: `url(${img6})`, '--art-opacity': 0.08 }}
+                />
+                <div
+                  className="section-art-image section-art-fade-wide absolute left-[4%] bottom-[-4%] h-[26%] w-[64%]"
+                  data-tone="ink"
+                  data-blend="ghost"
+                  style={{ backgroundImage: `url(${img8})`, '--art-opacity': 0.05 }}
+                />
+                <div
+                  className="section-art-image section-art-fade-soft absolute right-[6%] top-[12%] h-[150px] w-[18%]"
+                  data-tone="ink"
+                  data-blend="ghost"
+                  style={{ backgroundImage: `url(${img5})`, '--art-opacity': 0.05 }}
+                />
+              </div>
               <div className="motion-line border-b border-black/8 pb-6">
                 <div>
                   <span className="kicker">Calculator and recommendation</span>
@@ -331,7 +378,21 @@ function SolarCalculator() {
               </div>
 
               <div className="stagger-grid mt-6 grid gap-5">
-                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 100, '--stagger-x': '-16px' }}>
+                <div className="art-panel rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 100, '--stagger-x': '-16px' }}>
+                  <div className="section-art-shell" aria-hidden="true">
+                    <div
+                      className="section-art-image section-art-fade-side absolute right-[-4%] bottom-[-6%] h-[150px] w-[34%]"
+                      data-tone="ink"
+                      data-blend="ghost"
+                      style={{ backgroundImage: `url(${img7})`, '--art-opacity': 0.05 }}
+                    />
+                    <div
+                      className="section-art-image section-art-fade-bottom absolute left-[2%] bottom-[-12%] h-[140px] w-[44%]"
+                      data-tone="ink"
+                      data-blend="ghost"
+                      style={{ backgroundImage: `url(${img6})`, '--art-opacity': 0.04 }}
+                    />
+                  </div>
                   <div className="mb-6">
                     <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">Usage Inputs</h3>
                     <p className="mt-2 text-sm leading-7 text-[var(--color-muted)]">
@@ -431,7 +492,21 @@ function SolarCalculator() {
                   )}
                 </div>
 
-                <div className="rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 220, '--stagger-x': '16px' }}>
+                <div className="art-panel rounded-[1.8rem] border border-black/8 bg-[rgba(255,252,246,0.72)] p-4 sm:p-5 shadow-[0_25px_45px_rgba(37,27,17,0.06)]" style={{ '--stagger-delay': 220, '--stagger-x': '16px' }}>
+                  <div className="section-art-shell" aria-hidden="true">
+                    <div
+                      className="section-art-image section-art-fade-bottom absolute left-[8%] bottom-[-8%] h-[130px] w-[46%]"
+                      data-tone="ink"
+                      data-blend="ghost"
+                      style={{ backgroundImage: `url(${img1})`, '--art-opacity': 0.04 }}
+                    />
+                    <div
+                      className="section-art-image section-art-fade-center absolute right-[6%] top-[10%] h-[120px] w-[22%]"
+                      data-tone="ink"
+                      data-blend="ghost"
+                      style={{ backgroundImage: `url(${img5})`, '--art-opacity': 0.04 }}
+                    />
+                  </div>
                   <div className="mb-6">
                     <h3 className="font-['Syne'] text-2xl tracking-[-0.05em] text-[var(--color-ink)]">
                       Configuration Preferences
